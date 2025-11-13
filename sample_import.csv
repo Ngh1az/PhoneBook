@@ -1,0 +1,6 @@
+first_name,last_name,phone,email,address,notes,group_name,tags
+Nguyễn,Văn A,0123456789,nguyenvana@gmail.com,Hà Nội,Bạn cũ,Bạn bè,Important
+Trần,Thị B,0987654321,tranthib@gmail.com,TP.HCM,Đồng nghiệp,Công việc,Work
+Lê,Văn C,0901234567,levanc@gmail.com,Đà Nẵng,Họ hàng,Gia đình,
+Phạm,Thị D,0912345678,phamthid@gmail.com,Huế,Khách hàng,Khách hàng,Important;VIP
+Hoàng,Văn E,0923456789,hoangvane@gmail.com,Nha Trang,,Bạn bè,
