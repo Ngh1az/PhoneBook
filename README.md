@@ -2,8 +2,23 @@
 
 Ứng dụng quản lý danh bạ điện thoại được xây dựng bằng Python và MySQL với giao diện đồ họa Tkinter.
 
+## 🚀 Download & Deploy
+
+### Cho người dùng cuối (End Users)
+
+📥 **[Download PhoneBook.exe](dist/PhoneBook.exe)** (16 MB) - Chạy trực tiếp, không cần cài Python!
+
+📖 **[Hướng dẫn sử dụng](dist/HUONG_DAN_SU_DUNG.txt)** - Hướng dẫn chi tiết cho người dùng
+
+### Cho developer
+
+🛠️ **[Hướng dẫn Deploy](DEPLOY_GUIDE.md)** - Build file .exe bằng PyInstaller
+
+🔧 **[Hướng dẫn Build](build.ps1)** - Script tự động build ứng dụng
+
 ## Mục lục
 
+- [🚀 Download & Deploy](#-download--deploy)
 - [Giới thiệu](#giới-thiệu)
 - [Tính năng](#tính-năng)
 - [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
@@ -346,7 +361,7 @@ Xem chi tiết các phương thức của Models và Controllers trong code docs
 - **Class Diagram**: `docs/class.drawio.png` - Sơ đồ lớp
 - **DFD**: `docs/dfd0.drawio.png`, `docs/dfd1.drawio.png` - Sơ đồ luồng dữ liệu
 
-##  Xử lý lỗi
+## Xử lý lỗi
 
 ### Log Files
 
@@ -396,7 +411,7 @@ git commit -m "Add: mô tả feature"
 git push origin feature/ten-feature
 ```
 
-##  Đóng góp
+## Đóng góp
 
 Mọi đóng góp đều được chào đón! Vui lòng:
 
