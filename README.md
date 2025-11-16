@@ -433,22 +433,4 @@ Dự án này được phát hành dưới giấy phép MIT. Xem file `LICENSE` 
 - 🧪 [Testing Document](TESTING_DOCUMENT.md)
 - 🔧 [Test Export Fix](docs/TEST_EXPORT_FIX.md)
 
-## �👥 Tác giả
 
-**Group 10**
-
-- Trường Đại học XYZ
-- Email: group10@example.com
-
-## 🙏 Lời cảm ơn
-
-- Python Software Foundation
-- MySQL Development Team
-- Tkinter Community
-- Tất cả contributors
-
----
-
-**Phiên bản:** 1.0.0  
-**Ngày cập nhật:** 02/11/2025  
-**Trạng thái:** Stable ✅
