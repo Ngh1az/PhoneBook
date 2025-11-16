@@ -6,6 +6,14 @@ Provides common database operations for all models
 from db import db
 
 
+def mysql_to_sqlite(query):
+    """Convert MySQL query syntax to SQLite syntax"""
+    query = query.replace("?", "?")
+    query = query.replace("INSERT OR IGNORE", "INSERT OR IGNORE")
+    query = query.replace("", "")
+    return query
+
+
 class BaseModel:
     """Base model class with common CRUD operations"""
 
@@ -23,7 +31,7 @@ class BaseModel:
         Returns:
             dict: Record data or None
         """
-        query = f"SELECT * FROM {cls.table_name} WHERE {id_field} = %s"
+        query = mysql_to_sqlite(f"SELECT * FROM {cls.table_name} WHERE {id_field} = ?")
         results = db.execute_query(query, (id_value,), fetch=True)
 
         if results and len(results) > 0:
@@ -49,7 +57,7 @@ class BaseModel:
             params_list = []
 
             for key, value in conditions.items():
-                where_clauses.append(f"{key} = %s")
+                where_clauses.append(f"{key} = ?")
                 params_list.append(value)
 
             query += " WHERE " + " AND ".join(where_clauses)
@@ -69,7 +77,7 @@ class BaseModel:
             int: ID of created record or None
         """
         fields = list(data.keys())
-        placeholders = ", ".join(["%s"] * len(fields))
+        placeholders = ", ".join(["?"] * len(fields))
         fields_str = ", ".join(fields)
 
         query = f"INSERT INTO {cls.table_name} ({fields_str}) VALUES ({placeholders})"
@@ -98,12 +106,14 @@ class BaseModel:
         values = []
 
         for key, value in data.items():
-            set_clauses.append(f"{key} = %s")
+            set_clauses.append(f"{key} = ?")
             values.append(value)
 
         values.append(id_value)
 
-        query = f"UPDATE {cls.table_name} SET {', '.join(set_clauses)} WHERE {id_field} = %s"
+        query = (
+            f"UPDATE {cls.table_name} SET {', '.join(set_clauses)} WHERE {id_field} = ?"
+        )
 
         result = db.execute_query(query, tuple(values))
 
@@ -121,7 +131,7 @@ class BaseModel:
         Returns:
             bool: True if successful, False otherwise
         """
-        query = f"DELETE FROM {cls.table_name} WHERE {id_field} = %s"
+        query = f"DELETE FROM {cls.table_name} WHERE {id_field} = ?"
         result = db.execute_query(query, (id_value,))
 
         return result is not None and result["affected_rows"] > 0
@@ -145,7 +155,7 @@ class BaseModel:
             params_list = []
 
             for key, value in conditions.items():
-                where_clauses.append(f"{key} = %s")
+                where_clauses.append(f"{key} = ?")
                 params_list.append(value)
 
             query += " WHERE " + " AND ".join(where_clauses)

@@ -29,7 +29,7 @@ class TagModel(BaseModel):
             FROM tags t
             LEFT JOIN contact_tags ct ON t.tag_id = ct.tag_id
             LEFT JOIN contacts c ON ct.contact_id = c.contact_id AND c.is_deleted = FALSE
-            WHERE t.user_id = %s
+            WHERE t.user_id = ?
             GROUP BY t.tag_id
             ORDER BY t.tag_name
         """
@@ -48,7 +48,7 @@ class TagModel(BaseModel):
         Returns:
             dict: Tag data or None
         """
-        query = f"SELECT * FROM {cls.table_name} WHERE user_id = %s AND tag_name = %s"
+        query = f"SELECT * FROM {cls.table_name} WHERE user_id = ? AND tag_name = ?"
         results = db.execute_query(query, (user_id, tag_name), fetch=True)
 
         if results and len(results) > 0:

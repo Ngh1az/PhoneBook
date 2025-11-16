@@ -346,3 +346,7 @@ Query:
 [2025-11-13 12:23:55] INFO: User logged in: admin
 [2025-11-13 12:32:44] INFO: User logged out: admin
 [2025-11-13 12:32:45] INFO: Application closed
+[2025-11-16 10:12:05] INFO: Application started successfully
+[2025-11-16 10:12:17] ERROR: Lỗi thực thi query: near "%": syntax error
+Query: SELECT * FROM users WHERE username = %s
+[2025-11-16 10:12:19] INFO: Application closed

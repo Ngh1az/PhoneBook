@@ -23,7 +23,7 @@ class UserModel(BaseModel):
         Returns:
             dict: User data or None
         """
-        query = f"SELECT * FROM {cls.table_name} WHERE username = %s"
+        query = f"SELECT * FROM {cls.table_name} WHERE username = ?"
         results = db.execute_query(query, (username,), fetch=True)
 
         if results and len(results) > 0:
@@ -41,7 +41,7 @@ class UserModel(BaseModel):
         Returns:
             dict: User data or None
         """
-        query = f"SELECT * FROM {cls.table_name} WHERE email = %s"
+        query = f"SELECT * FROM {cls.table_name} WHERE email = ?"
         results = db.execute_query(query, (email,), fetch=True)
 
         if results and len(results) > 0:

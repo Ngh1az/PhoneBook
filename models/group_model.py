@@ -28,7 +28,7 @@ class GroupModel(BaseModel):
                 COUNT(c.contact_id) as contact_count
             FROM my_groups g
             LEFT JOIN contacts c ON g.group_id = c.group_id AND c.is_deleted = FALSE
-            WHERE g.user_id = %s
+            WHERE g.user_id = ?
             GROUP BY g.group_id
             ORDER BY g.group_name
         """
@@ -47,7 +47,7 @@ class GroupModel(BaseModel):
         Returns:
             dict: Group data or None
         """
-        query = f"SELECT * FROM {cls.table_name} WHERE user_id = %s AND group_name = %s"
+        query = f"SELECT * FROM {cls.table_name} WHERE user_id = ? AND group_name = ?"
         results = db.execute_query(query, (user_id, group_name), fetch=True)
 
         if results and len(results) > 0:
@@ -131,7 +131,7 @@ class GroupModel(BaseModel):
             tuple: (bool, message)
         """
         # First, remove group_id from all contacts in this group
-        query = "UPDATE contacts SET group_id = NULL WHERE group_id = %s"
+        query = "UPDATE contacts SET group_id = NULL WHERE group_id = ?"
         db.execute_query(query, (group_id,))
 
         # Then delete the group

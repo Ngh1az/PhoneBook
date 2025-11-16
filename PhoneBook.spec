@@ -15,7 +15,7 @@ a = Analysis(
         ('config.py', '.'),    # Include config file
     ],
     hiddenimports=[
-        'mysql.connector',
+        'sqlite3',
         'bcrypt',
         'tkinter',
         'tkinter.ttk',
@@ -32,6 +32,8 @@ a = Analysis(
         'scipy',
         'PIL',
         'Pillow',
+        'mysql',
+        'mysql.connector',
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
@@ -48,7 +50,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='PhoneBook',
+    name='PhoneBook_Portable',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

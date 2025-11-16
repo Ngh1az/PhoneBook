@@ -3,19 +3,23 @@ Configuration file for PhoneBook Application
 Contains database connection settings and application constants
 """
 
-# Database Configuration
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "112006",  # Change this to your MySQL password
-    "database": "phonebook_db",
-    "port": 3306,
-    "raise_on_warnings": True,
-}
+import os
+import sys
+
+# Get the directory where the executable is running
+if getattr(sys, "frozen", False):
+    # Running as compiled exe
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # Running as script
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Database Configuration - SQLite (Portable, no installation needed!)
+DB_PATH = os.path.join(BASE_DIR, "data", "phonebook.db")
 
 # Application Settings
 APP_TITLE = "PhoneBook Application"
-APP_VERSION = "1.0"
+APP_VERSION = "1.0 (Portable)"
 APP_WINDOW_SIZE = "1200x700"
 APP_MIN_SIZE = (1000, 600)
 
@@ -23,13 +27,13 @@ APP_MIN_SIZE = (1000, 600)
 BCRYPT_ROUNDS = 12  # Number of rounds for bcrypt hashing
 
 # Logging Settings
-LOG_FILE = "data/error_log.txt"
+LOG_FILE = os.path.join(BASE_DIR, "data", "error_log.txt")
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 # Backup Settings
-BACKUP_FOLDER = "data/backup"
-EXPORT_FOLDER = "data/exports"
+BACKUP_FOLDER = os.path.join(BASE_DIR, "data", "backup")
+EXPORT_FOLDER = os.path.join(BASE_DIR, "data", "exports")
 
 # UI Colors - Simple & Clean
 COLORS = {

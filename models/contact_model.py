@@ -28,16 +28,16 @@ class ContactModel(BaseModel):
             SELECT 
                 c.*,
                 g.group_name,
-                GROUP_CONCAT(t.tag_name SEPARATOR ', ') as tags
+                GROUP_CONCAT(t.tag_name, ', ') as tags
             FROM contacts c
             LEFT JOIN my_groups g ON c.group_id = g.group_id
             LEFT JOIN contact_tags ct ON c.contact_id = ct.contact_id
             LEFT JOIN tags t ON ct.tag_id = t.tag_id
-            WHERE c.user_id = %s
+            WHERE c.user_id = ?
         """
 
         if not include_deleted:
-            query += " AND c.is_deleted = FALSE"
+            query += " AND c.is_deleted = 0"
 
         query += " GROUP BY c.contact_id ORDER BY c.contact_id ASC"
 
@@ -61,18 +61,18 @@ class ContactModel(BaseModel):
             SELECT 
                 c.*,
                 g.group_name,
-                GROUP_CONCAT(t.tag_name SEPARATOR ', ') as tags
+                GROUP_CONCAT(t.tag_name, ', ') as tags
             FROM contacts c
             LEFT JOIN my_groups g ON c.group_id = g.group_id
             LEFT JOIN contact_tags ct ON c.contact_id = ct.contact_id
             LEFT JOIN tags t ON ct.tag_id = t.tag_id
-            WHERE c.user_id = %s 
-            AND c.is_deleted = FALSE
+            WHERE c.user_id = ? 
+            AND c.is_deleted = 0
             AND (
-                c.first_name LIKE %s 
-                OR c.last_name LIKE %s 
-                OR c.phone LIKE %s 
-                OR c.email LIKE %s
+                c.first_name LIKE ? 
+                OR c.last_name LIKE ? 
+                OR c.phone LIKE ? 
+                OR c.email LIKE ?
             )
             GROUP BY c.contact_id
             ORDER BY c.contact_id ASC
@@ -104,14 +104,14 @@ class ContactModel(BaseModel):
             SELECT 
                 c.*,
                 g.group_name,
-                GROUP_CONCAT(t.tag_name SEPARATOR ', ') as tags
+                GROUP_CONCAT(t.tag_name, ', ') as tags
             FROM contacts c
             LEFT JOIN my_groups g ON c.group_id = g.group_id
             LEFT JOIN contact_tags ct ON c.contact_id = ct.contact_id
             LEFT JOIN tags t ON ct.tag_id = t.tag_id
-            WHERE c.user_id = %s 
-            AND c.group_id = %s
-            AND c.is_deleted = FALSE
+            WHERE c.user_id = ? 
+            AND c.group_id = ?
+            AND c.is_deleted = 0
             GROUP BY c.contact_id
             ORDER BY c.contact_id ASC
         """
@@ -134,14 +134,14 @@ class ContactModel(BaseModel):
             SELECT 
                 c.*,
                 g.group_name,
-                GROUP_CONCAT(t.tag_name SEPARATOR ', ') as tags
+                GROUP_CONCAT(t.tag_name, ', ') as tags
             FROM contacts c
             LEFT JOIN my_groups g ON c.group_id = g.group_id
             INNER JOIN contact_tags ct ON c.contact_id = ct.contact_id
             LEFT JOIN tags t ON ct.tag_id = t.tag_id
-            WHERE c.user_id = %s 
-            AND ct.tag_id = %s
-            AND c.is_deleted = FALSE
+            WHERE c.user_id = ? 
+            AND ct.tag_id = ?
+            AND c.is_deleted = 0
             GROUP BY c.contact_id
             ORDER BY c.contact_id ASC
         """
@@ -283,7 +283,7 @@ class ContactModel(BaseModel):
                 g.group_name
             FROM contacts c
             LEFT JOIN my_groups g ON c.group_id = g.group_id
-            WHERE c.user_id = %s AND c.is_deleted = TRUE
+            WHERE c.user_id = ? AND c.is_deleted = 1
             ORDER BY c.deleted_at DESC
         """
 
@@ -301,7 +301,7 @@ class ContactModel(BaseModel):
         Returns:
             bool: True if successful
         """
-        query = "INSERT IGNORE INTO contact_tags (contact_id, tag_id) VALUES (%s, %s)"
+        query = "INSERT OR IGNORE INTO contact_tags (contact_id, tag_id) VALUES (?, ?)"
         result = db.execute_query(query, (contact_id, tag_id))
 
         return result is not None
@@ -318,7 +318,7 @@ class ContactModel(BaseModel):
         Returns:
             bool: True if successful
         """
-        query = "DELETE FROM contact_tags WHERE contact_id = %s AND tag_id = %s"
+        query = "DELETE FROM contact_tags WHERE contact_id = ? AND tag_id = ?"
         result = db.execute_query(query, (contact_id, tag_id))
 
         return result is not None
@@ -338,7 +338,7 @@ class ContactModel(BaseModel):
             SELECT t.* 
             FROM tags t
             INNER JOIN contact_tags ct ON t.tag_id = ct.tag_id
-            WHERE ct.contact_id = %s
+            WHERE ct.contact_id = ?
         """
 
         return db.execute_query(query, (contact_id,), fetch=True) or []

@@ -1,5 +1,10 @@
 === PhoneBook Application Error Log ===
-Started at: 2025-11-16 10:00:01
+Started at: 2025-11-16 10:20:27
 
-[2025-11-16 10:00:01] INFO: Application started successfully
-[2025-11-16 10:00:03] INFO: Application closed
+[2025-11-16 10:20:27] INFO: Application started successfully
+[2025-11-16 10:20:35] INFO: User logged in: admin
+[2025-11-16 10:21:21] INFO: Application closed
+[2025-11-16 10:24:03] INFO: Application started successfully
+[2025-11-16 10:24:09] INFO: User logged in: admin
+[2025-11-16 10:25:24] INFO: Application closed
+[2025-11-16 10:25:49] INFO: Application started successfully

@@ -38,9 +38,12 @@ class PhoneBookApp:
             if not db.init_database():
                 messagebox.showerror(
                     "Lỗi Database",
-                    "Không thể khởi tạo database.\nVui lòng kiểm tra cấu hình MySQL trong file config.py",
+                    "Không thể khởi tạo database.\nVui lòng kiểm tra cấu hình trong file config.py",
                 )
                 return False
+
+            # Create default admin user if not exists
+            self.create_default_admin()
 
             # Print default login credentials
             print("\n" + "=" * 50)
@@ -58,6 +61,45 @@ class PhoneBookApp:
             log_error(error_msg)
             messagebox.showerror("Lỗi", error_msg)
             return False
+
+    def create_default_admin(self):
+        """Create default admin user if not exists"""
+        try:
+            from utils.security import hash_password
+
+            # Check if admin exists
+            check_query = "SELECT user_id FROM users WHERE username = ?"
+            existing = db.execute_query(check_query, ("admin",), fetch=True)
+
+            if existing:
+                print("✓ Tài khoản admin đã tồn tại")
+                return
+
+            # Create admin user
+            password_hash = hash_password("123456")
+            insert_query = """
+                INSERT INTO users (username, email, password_hash, fullname, phone, address)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """
+            result = db.execute_query(
+                insert_query,
+                (
+                    "admin",
+                    "admin@phonebook.com",
+                    password_hash,
+                    "Administrator",
+                    None,
+                    None,
+                ),
+            )
+
+            if result and result["last_id"]:
+                print("✓ Đã tạo tài khoản admin mặc định")
+            else:
+                print("⚠️ Không thể tạo tài khoản admin")
+
+        except Exception as e:
+            print(f"⚠️ Lỗi tạo admin: {e}")
 
     def start(self):
         """Start the application"""

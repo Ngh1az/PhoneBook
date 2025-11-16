@@ -22,7 +22,7 @@ def create_user_account():
     address = "Hà Nội, Việt Nam"
 
     # Kiểm tra user đã tồn tại chưa
-    check_query = "SELECT user_id FROM users WHERE username = %s"
+    check_query = "SELECT user_id FROM users WHERE username = ?"
     existing = db.execute_query(check_query, (username,), fetch=True)
 
     if existing:
@@ -35,7 +35,7 @@ def create_user_account():
     # Insert user
     query = """
         INSERT INTO users (username, email, password_hash, fullname, phone, address)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        VALUES (?, ?, ?, ?, ?, ?)
     """
     result = db.execute_query(
         query, (username, email, password_hash, fullname, phone, address)
@@ -70,14 +70,14 @@ def seed_groups(user_id):
 
     query = """
         INSERT INTO my_groups (user_id, group_name, description)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     """
 
     group_ids = []
     for group_name, description in groups:
         # Kiểm tra group đã tồn tại chưa
         check_query = (
-            "SELECT group_id FROM my_groups WHERE user_id = %s AND group_name = %s"
+            "SELECT group_id FROM my_groups WHERE user_id = ? AND group_name = ?"
         )
         existing = db.execute_query(check_query, (user_id, group_name), fetch=True)
 
@@ -112,13 +112,13 @@ def seed_tags(user_id):
 
     query = """
         INSERT INTO tags (user_id, tag_name, description)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     """
 
     tag_ids = []
     for tag_name, description in tags:
         # Kiểm tra tag đã tồn tại chưa
-        check_query = "SELECT tag_id FROM tags WHERE user_id = %s AND tag_name = %s"
+        check_query = "SELECT tag_id FROM tags WHERE user_id = ? AND tag_name = ?"
         existing = db.execute_query(check_query, (user_id, tag_name), fetch=True)
 
         if existing:
@@ -314,14 +314,14 @@ def seed_contacts(user_id, group_ids):
 
     query = """
         INSERT INTO contacts (user_id, first_name, last_name, phone, email, address, notes, group_id)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """
 
     contact_ids = []
     for first_name, last_name, phone, email, address, notes, group_idx in contacts:
         # Kiểm tra contact đã tồn tại chưa
         check_query = (
-            "SELECT contact_id FROM contacts WHERE user_id = %s AND phone = %s"
+            "SELECT contact_id FROM contacts WHERE user_id = ? AND phone = ?"
         )
         existing = db.execute_query(check_query, (user_id, phone), fetch=True)
 
@@ -359,12 +359,12 @@ def seed_contact_tags(contact_ids, tag_ids):
     # Kiểm tra tags đã tồn tại trước khi insert
     check_query = """
         SELECT COUNT(*) as count FROM contact_tags 
-        WHERE contact_id = %s AND tag_id = %s
+        WHERE contact_id = ? AND tag_id = ?
     """
 
     insert_query = """
         INSERT INTO contact_tags (contact_id, tag_id)
-        VALUES (%s, %s)
+        VALUES (?, ?)
     """
 
     count = 0
@@ -414,7 +414,7 @@ def seed_deleted_contacts(user_id, group_ids):
 
     query = """
         INSERT INTO contacts (user_id, first_name, last_name, phone, email, address, notes, group_id, is_deleted, deleted_at)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, TRUE, NOW())
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, TRUE, NOW())
     """
 
     for (
@@ -428,7 +428,7 @@ def seed_deleted_contacts(user_id, group_ids):
     ) in deleted_contacts:
         # Kiểm tra đã tồn tại chưa
         check_query = (
-            "SELECT contact_id FROM contacts WHERE user_id = %s AND phone = %s"
+            "SELECT contact_id FROM contacts WHERE user_id = ? AND phone = ?"
         )
         existing = db.execute_query(check_query, (user_id, phone), fetch=True)
 
