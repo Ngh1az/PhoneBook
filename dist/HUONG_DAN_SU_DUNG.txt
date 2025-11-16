@@ -29,7 +29,7 @@ BƯỚC 1: Cài đặt MySQL Server
 
 2. Cài đặt MySQL với thiết lập mặc định:
    - Port: 3306
-   - Root password: Đặt password mạnh (ghi nhớ lại!)
+   - Root password: mật khẩu của mình
    
 3. Khởi động MySQL Server:
    - Windows: Tự động khởi động sau khi cài
@@ -89,8 +89,6 @@ Tài khoản mặc định (được tạo tự động):
    Tên đăng nhập: admin
    Mật khẩu: 123456
 
-⚠️ KHUYẾN NGHỊ: Đổi mật khẩu sau khi đăng nhập lần đầu!
-(Vào: Hồ sơ → Đổi mật khẩu)
 
 ═══════════════════════════════════════════════════════════════
 
@@ -161,27 +159,5 @@ PHỤC HỒI:
 1. Cài lại PhoneBook
 2. Nhập file CSV đã backup
 3. Dữ liệu được khôi phục
-
-═══════════════════════════════════════════════════════════════
-
-📞 HỖ TRỢ KỸ THUẬT
-------------------
-Email: support@phonebook.com
-Website: https://phonebook.com
-Điện thoại: 1900-xxxx
-
-Giờ làm việc: 8:00 - 17:00 (T2-T6)
-
-═══════════════════════════════════════════════════════════════
-
-📄 GIẤY PHÉP
-------------
-© 2025 PhoneBook Team - Group 10
-Bản quyền thuộc về nhóm phát triển.
-Cấm sao chép, phân phối khi chưa có sự đồng ý.
-
-═══════════════════════════════════════════════════════════════
-
-✨ Cảm ơn bạn đã sử dụng PhoneBook! ✨
 
 ═══════════════════════════════════════════════════════════════
